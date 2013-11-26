@@ -1,3 +1,5 @@
+import sys
+
 def isPrime(n, plist):
     for p in plist:
         if n%p == 0: return False
@@ -18,6 +20,10 @@ def primes(nPrimes):
             return primes
 
 def main():
-    print sum(primes(1000))
+    try:
+        n = int(sys.argv[1]) * 1000
+    except:
+        n = 1000
+    print sum(primes(n))
 
 main()
