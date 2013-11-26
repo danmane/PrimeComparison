@@ -45,7 +45,7 @@ long primesum(int num){
 int main(int argc, char *argv[]){
     int num;
     num = atoi(argv[1]) * 1000;
-    if (num == 0){ num = 1000;}
+    if (num == 0){ num = 100000;}
     long x = primesum(num);
     printf("%ld\n", x);
 }

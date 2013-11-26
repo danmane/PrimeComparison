@@ -23,7 +23,7 @@ def main():
     try:
         n = int(sys.argv[1]) * 1000
     except:
-        n = 1000
+        n = 100000
     print sum(primes(n))
 
 main()
