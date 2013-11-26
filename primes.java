@@ -37,7 +37,12 @@ class Primes {
         return sum;
     }
     public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]) * 1000;
+        int n;
+        if (args.length > 0) {
+            n = Integer.parseInt(args[0]) * 1000;
+        } else {
+            n = 100000;
+        }
         System.out.println(primesum(n));
     }
 }
