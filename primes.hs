@@ -1,5 +1,4 @@
 module Main (main) where
-
 import GHC.Environment
 
 primes = 2:3:[n | x<-[1..], y<-[-1,1], let n=6*x+y, isPrime n]
@@ -14,6 +13,5 @@ sumPrimes n = sum $ take n primes
 
 main = do
     args <- getFullArgs
-    let n = getNumPrimesOrUseDefault args
-    putStrLn $ "Computing " ++ (show n) ++ " primes"
+    let n = getNumPrimesOrUseDefault getFullArgs
     print $ sumPrimes n
