@@ -21,7 +21,7 @@ int * primes(int num){
     int i = 2;
     int next;
     while (found < num) {
-        next = 6 * (i/2) + (i%2) * 2 - 1;
+        next = 6 * (i>>1) + (i & 1) * 2 - 1;
         if (isPrime(next, primes)){
             primes[found] = next;
             found++;
