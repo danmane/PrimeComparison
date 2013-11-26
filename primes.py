@@ -12,11 +12,15 @@ def potentialPrimeGen():
         i+=1
 
 def primes(nPrimes):
-    primes = [2,3]
+    primes = [0] * nPrimes
+    primes[0] = 2
+    primes[1] = 3
+    idx = 0
     for p in potentialPrimeGen():
         if isPrime(p, primes):
-            primes.append(p)
-        if len(primes) == nPrimes:
+            primes[idx] = p
+            idx += 1
+        if idx == nPrimes:
             return primes
 
 def main():
