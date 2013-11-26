@@ -7,7 +7,7 @@ isPrime n = all (\x -> n `mod` x /= 0) $ takeWhile (\x -> x*x <= n) primes
 
 getNumPrimesOrUseDefault :: [String] -> Int
 getNumPrimesOrUseDefault [] = 1000
-getNumPrimesOrUseDefault (x:xs) = read x
+getNumPrimesOrUseDefault (x:xs) = 1000 * read x
 
 sumPrimes :: Int -> Int
 sumPrimes n = sum $ take n primes
@@ -15,4 +15,5 @@ sumPrimes n = sum $ take n primes
 main = do
     args <- getFullArgs
     let n = getNumPrimesOrUseDefault args
+    putStrLn $ "Computing " ++ (show n) ++ " primes"
     print $ sumPrimes n
