@@ -46,11 +46,10 @@ def measureTime(numPrimes, lang):
   return t[0]
 
 def readTimes(timestr):
+  timestr = timestr.strip()
+  valid = re.match("\d+\.\d\d real +\d+\.\d\d user +\d+\.\d\d sys", timestr)
+  assert(valid != None)
   times = re.findall("\d+\.?\d+", timestr)
-  if len(times) != 3:
-    print(times)
-    print(timestr)
-    assert False
   real = float(times[0])
   user = float(times[1])
   sys = float(times[2])
@@ -61,9 +60,13 @@ def timeLang(primeSequence, lang):
   for p in primeSequence:
     try:
       r = measureTime(p, lang)
+      print(lang + ", " + str(p) +": " + str(r))
       result.append(r)
-    except AssertionError as e:
+      if r > 3600:
+        break
+    except (AssertionError, s.CalledProcessError) as e:
       print("Failed on " + lang + "," + str(p))
+      print(e)
       result.append("NaN")
       break
   return result
@@ -73,7 +76,7 @@ def main():
   multiples = [1,2,5]
   numPrimesInThousands = [mult * 10 ** powr for powr in powers for mult in multiples]
   numPrimes = [n * 1000 for n in numPrimesInThousands]
-  langs = ["python", "c", "java", "haskell"]
+  langs = ["c", "python", "java", "haskell"]
   # The order is significant, since first result is treated as canonical by the cache.
   # Since python turns everything into bigints, as necessary, it won't suffer from overflow
   # errors, so it should run first.
