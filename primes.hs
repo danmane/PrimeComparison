@@ -13,5 +13,5 @@ sumPrimes n = sum $ take n primes
 
 main = do
     args <- getFullArgs
-    let n = getNumPrimesOrUseDefault getFullArgs
+    let n = getNumPrimesOrUseDefault args
     print $ sumPrimes n
