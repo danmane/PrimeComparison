@@ -13,10 +13,33 @@ l2process = {
   "c": ["./a.out"],
   "java": ["java", "Primes"]}
 
+cachedPrimes = {}
+
+def allDigits(x):
+  try:
+    int(x)
+    return True
+  except ValueError:
+    return False
+
 def measureTime(numPrimes, lang):
   cmd = ["time"] + l2process[lang] + [str(numPrimes)]
   with open(".timePrime_temp", "w") as f:
-    result = s.check_output(cmd, stderr=f)
+    output = s.check_output(cmd, stderr=f)
+    output = output.strip()
+    try:
+      output = int(output)
+    except ValueError:
+      print("Got non-digit output")
+      print(output)
+      raise AssertionError
+
+    if numPrimes not in cachedPrimes:
+      cachedPrimes[numPrimes] = output
+    elif cachedPrimes[numPrimes] != output:
+      print("Expected " + str(cachedPrimes[numPrimes]) + " got " + str(output))
+      raise AssertionError
+
   with open(".timePrime_temp", "r") as f:
     t = readTimes(f.read())
   return t[0]
@@ -32,16 +55,27 @@ def readTimes(timestr):
   sys = float(times[2])
   return (real, user, sys)
 
+def timeLang(primeSequence, lang):
+  result = []
+  for p in primeSequence:
+    try:
+      r = measureTime(p, lang)
+      result.append(r)
+    except AssertionError as e:
+      print("Failed on " + lang + "," + str(p))
+      result.append("NaN")
+      break
+  return result
+
 def main():
-  powers = range(3)
+  powers = range(1)
   multiples = [1,2,5]
   numPrimes = [mult * 10 ** powr for powr in powers for mult in multiples]
-  langs = {"haskell": [], "java": [], "c": [], "python": []}
-  for lang, result in langs.items():
-    for num in numPrimes:
-      real = measureTime(num, lang)
-      result.append(real)
-  print(langs)
+  langs = ["python", "c", "java", "haskell"]
+  results = {"numPrimes": numPrimes}
+  for lang in langs:
+    results[lang] = timeLang(numPrimes, lang)
+  print(results)
 
 
 main()
