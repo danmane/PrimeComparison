@@ -7,23 +7,19 @@
 import subprocess as s
 import re
 
-def measureTime(numPrimes, lang, numRuns=1):
-  l2process = {
-    "haskell": ["./primes"],
-    "python": ["python", "primes.py"],
-    "c": ["./a.out"],
-    "java": ["java", "Primes"],
-  }
+l2process = {
+  "haskell": ["./primes"],
+  "python": ["python", "primes.py"],
+  "c": ["./a.out"],
+  "java": ["java", "Primes"]}
+
+def measureTime(numPrimes, lang):
   cmd = ["time"] + l2process[lang] + [str(numPrimes)]
-  times = (0,0,0)
-  for i in range(numRuns):
-    with open(".timePrime_temp", "w") as f:
-      s.call(cmd, stdout=s.DEVNULL, stderr=f)
-    with open(".timePrime_temp", "r") as f:
-      t = readTimes(f.read())
-      times = sumTriplet(times, t)
-  times = divideTriplet(times, numRuns)
-  return times[0]
+  with open(".timePrime_temp", "w") as f:
+    result = s.check_output(cmd, stderr=f)
+  with open(".timePrime_temp", "r") as f:
+    t = readTimes(f.read())
+  return t[0]
 
 def readTimes(timestr):
   times = re.findall("\d+\.?\d+", timestr)
@@ -36,17 +32,10 @@ def readTimes(timestr):
   sys = float(times[2])
   return (real, user, sys)
 
-def sumTriplet(a,b):
-  return (a[0]+b[0], a[1]+b[1], a[2]+b[2])
-
-def divideTriplet(a,div):
-  return (a[0]/div, a[1]/div, a[2]/div)
-
 def main():
-  numPrimes = []
-  for powr in [0,1]:
-    for mult in [1,2,5]:
-      numPrimes.append(mult * 10**powr)
+  powers = range(3)
+  multiples = [1,2,5]
+  numPrimes = [mult * 10 ** powr for powr in powers for mult in multiples]
   langs = {"haskell": [], "java": [], "c": [], "python": []}
   for lang, result in langs.items():
     for num in numPrimes:
