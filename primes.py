@@ -15,7 +15,7 @@ def primes(nPrimes):
     primes = [0] * nPrimes
     primes[0] = 2
     primes[1] = 3
-    idx = 0
+    idx = 2
     for p in potentialPrimeGen():
         if isPrime(p, primes):
             primes[idx] = p
