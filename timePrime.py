@@ -69,11 +69,14 @@ def timeLang(primeSequence, lang):
   return result
 
 def main():
-  powers = range(1)
+  powers = range(6)
   multiples = [1,2,5]
   numPrimesInThousands = [mult * 10 ** powr for powr in powers for mult in multiples]
   numPrimes = [n * 1000 for n in numPrimesInThousands]
   langs = ["python", "c", "java", "haskell"]
+  # The order is significant, since first result is treated as canonical by the cache.
+  # Since python turns everything into bigints, as necessary, it won't suffer from overflow
+  # errors, so it should run first.
   results = {"numPrimes": numPrimes}
   for lang in langs:
     results[lang] = timeLang(numPrimesInThousands, lang)
