@@ -71,11 +71,12 @@ def timeLang(primeSequence, lang):
 def main():
   powers = range(1)
   multiples = [1,2,5]
-  numPrimes = [mult * 10 ** powr for powr in powers for mult in multiples]
+  numPrimesInThousands = [mult * 10 ** powr for powr in powers for mult in multiples]
+  numPrimes = [n * 1000 for n in numPrimesInThousands]
   langs = ["python", "c", "java", "haskell"]
   results = {"numPrimes": numPrimes}
   for lang in langs:
-    results[lang] = timeLang(numPrimes, lang)
+    results[lang] = timeLang(numPrimesInThousands, lang)
   with open("results.json", "w") as f:
     json.dump(results, f)
 
