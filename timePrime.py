@@ -6,6 +6,7 @@
 
 import subprocess as s
 import re
+import json
 
 l2process = {
   "haskell": ["./primes"],
@@ -75,7 +76,8 @@ def main():
   results = {"numPrimes": numPrimes}
   for lang in langs:
     results[lang] = timeLang(numPrimes, lang)
-  print(results)
+  with open("results.json", "w") as f:
+    json.dump(results, f)
 
 
 main()
